@@ -85,24 +85,15 @@ golint ./... 2>&1 | (
   tee /dev/stderr | (! read)
 
 staticcheck -go 1.11 ./... 2>&1 | (
-  grep -v S1007 |
-    grep -v SA1019 |
-    grep -v firestore/internal/doc-snippets.go |
-    grep -v functions/metadata/metadata_test.go |
-    grep -v spanner/value.go |
+  # Ignore deprecation warnings as we need to call this code
+  grep -v SA1019 |
+    # Ignore debugging tools
     grep -v go-cloud-debug-agent |
-    grep -v pubsub/integration_test.go |
-    grep -v internal/fields/fold.go |
     grep -v httpreplay/internal/proxy/debug.go |
-    grep -v bigtable/internal/cbtconfig/cbtconfig.go |
-    grep -v bigtable/cmd/cbt/cbt.go |
-    grep -v asset/v1beta1/doc.go |
-    grep -v asset/v1beta1/mock_test.go |
-    grep -v spanner/value_test.go |
-    grep -v bigtable/reader.go |
-    grep -v internal/btree/btree.go |
-    grep -v container/apiv1/mock_test.go |
-    grep -v third_party/pkgsite/synopsis.go
+    # Ignore vendored code
+    grep -v third_party |
+    # Ignore byte field used for struct identity.
+    grep -v third_party
 ) |
   tee /dev/stderr | (! read)
 

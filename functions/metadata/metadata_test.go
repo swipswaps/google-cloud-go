@@ -37,7 +37,8 @@ func TestMetadata(t *testing.T) {
 }
 
 func TestMetadataError(t *testing.T) {
-	if _, err := FromContext(nil); err == nil {
+	var nilCtx context.Context
+	if _, err := FromContext(nilCtx); err == nil {
 		t.Errorf("FromContext got no error, wanted an error")
 	}
 	if _, err := FromContext(context.Background()); err == nil {
